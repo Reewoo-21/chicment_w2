@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 명품 페르소나 찾기 | 시크먼트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #FBFAF8;
+            color: #211D19;
+            overflow-x: hidden;
+        }
+        .serif-title {
+            font-family: 'Playfair Display', 'Noto Sans KR', serif;
+        }
+        /* Custom Smooth Transitions */
+        .fade-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Ref. Smore / 29CM Custom Bold Outlines & Soft Shadows */
+        .premium-border {
+            border: 2px solid #1A1A1A;
+        }
+        .premium-shadow {
+            box-shadow: 5px 5px 0px 0px #211D19;
+        }
+        .premium-shadow-lg {
+            box-shadow: 10px 10px 0px 0px #211D19;
+        }
+        .premium-shadow-hover:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px 0px #211D19;
+        }
+        .premium-shadow-hover:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px #211D19;
+        }
+        /* Progress Bar Striped Design */
+        .progress-striped {
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+            background-size: 1rem 1rem;
+        }
+        .luxury-capsule {
+            padding: 7px 14px 7px 11px;
+            letter-spacing: 0.08em;
+            animation: luxuryCapsuleFloat 1.8s ease-in-out infinite;
+        }
+        .luxury-capsule-dot {
+            width: 8px;
+            height: 8px;
+            animation: luxuryCapsuleDot 1.8s ease-in-out infinite;
+            transform-origin: center;
+        }
+        @keyframes luxuryCapsuleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        @keyframes luxuryCapsuleDot {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.85); }
+        }
+        .question-visual {
+            width: 120px;
+            height: 120px;
+            box-shadow: 5px 5px 0px 0px #211D19;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+        /* <br>을 심은 위치에서만 줄바꿈되도록 고정 */
+        #question-text,
+        #result-main-title {
+            white-space: nowrap;
+            word-break: keep-all;
+        }
+        #question-text br,
+        #result-main-title br {
+            display: block;
+            content: '';
+        }
+        .ending-card {
+            --result-accent: #B88A2C;
+            --result-soft: #F8F0D8;
+            --result-ink: #211D19;
+            position: relative;
+            isolation: isolate;
+            background:
+                radial-gradient(circle at 18% 12%, rgba(255,255,255,.92) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 76% 28%, rgba(33,29,25,.08) 0 .8px, transparent 1.4px),
+                radial-gradient(circle at 42% 74%, rgba(184,138,44,.10) 0 1px, transparent 1.7px),
+                linear-gradient(180deg, #FFFCF6 0%, var(--result-soft) 100%);
+            background-size: 28px 28px, 34px 34px, 22px 22px, auto;
+        }
+        .ending-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            opacity: .42;
+            background:
+                repeating-linear-gradient(0deg, rgba(33,29,25,.035) 0 1px, transparent 1px 9px),
+                repeating-linear-gradient(90deg, rgba(255,255,255,.35) 0 1px, transparent 1px 13px);
+            mix-blend-mode: multiply;
+        }
+        .result-pill {
+            color: var(--result-accent);
+            border-color: color-mix(in srgb, var(--result-accent) 70%, #ffffff 30%);
+            background: color-mix(in srgb, var(--result-soft) 70%, #ffffff 30%);
+        }
+        .result-accent {
+            color: var(--result-accent);
+        }
+        .stat-slider {
+            position: relative;
+            height: 2px;
+            border-radius: 999px;
+            background: #D7CCBC;
+        }
+        .stat-fill {
+            position: relative;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--result-accent);
+        }
+        .stat-fill::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            width: 13px;
+            height: 13px;
+            border-radius: 999px;
+            background: var(--result-accent);
+            border: 2px solid #FFFCF6;
+            box-shadow: 0 1px 0 rgba(33,29,25,.18), 0 0 0 1px color-mix(in srgb, var(--result-accent) 55%, #211D19 45%);
+            transform: translateY(-50%);
+        }
+        .mascot-scene {
+            position: relative;
+            width: 220px;
+            height: 190px;
+            margin: 0 auto;
+        }
+        .mascot {
+            --fur: #E8D2BA;
+            --fur-dark: #C6A27D;
+            --ear: #F6D8C8;
+            position: absolute;
+            left: 50%;
+            bottom: 12px;
+            width: 118px;
+            height: 142px;
+            transform: translateX(-50%);
+        }
+        .mascot::before,
+        .mascot::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 34px;
+            height: 42px;
+            border: 2px solid #211D19;
+            background: var(--fur);
+            z-index: 0;
+        }
+        .mascot::before { left: 18px; border-radius: 70% 35% 45% 45%; transform: rotate(-18deg); }
+        .mascot::after { right: 18px; border-radius: 35% 70% 45% 45%; transform: rotate(18deg); }
+        .mascot-head {
+            position: absolute;
+            left: 50%;
+            top: 22px;
+            width: 96px;
+            height: 86px;
+            transform: translateX(-50%);
+            border: 2px solid #211D19;
+            border-radius: 44% 44% 48% 48%;
+            background: var(--fur);
+            z-index: 2;
+        }
+        .mascot-face {
+            position: absolute;
+            left: 50%;
+            top: 44px;
+            width: 44px;
+            height: 30px;
+            transform: translateX(-50%);
+            border-radius: 48% 48% 55% 55%;
+            background: rgba(255,255,255,.55);
+        }
+        .mascot-eye {
+            position: absolute;
+            top: 31px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #211D19;
+            z-index: 3;
+        }
+        .mascot-eye.left { left: 30px; }
+        .mascot-eye.right { right: 30px; }
+        .mascot-nose {
+            position: absolute;
+            left: 50%;
+            top: 49px;
+            width: 9px;
+            height: 7px;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: #211D19;
+            z-index: 4;
+        }
+        .mascot-body {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 72px;
+            height: 62px;
+            transform: translateX(-50%);
+            border: 2px solid #211D19;
+            border-radius: 34px 34px 18px 18px;
+            background: color-mix(in srgb, var(--fur) 72%, #ffffff 28%);
+            z-index: 1;
+        }
+        .mascot-scarf {
+            position: absolute;
+            left: 50%;
+            top: 99px;
+            width: 54px;
+            height: 16px;
+            transform: translateX(-50%) rotate(-4deg);
+            border: 2px solid #211D19;
+            border-radius: 999px;
+            background: var(--result-accent);
+            z-index: 5;
+        }
+        .mascot-bag {
+            position: absolute;
+            right: 18px;
+            bottom: 7px;
+            width: 34px;
+            height: 28px;
+            border: 2px solid #211D19;
+            border-radius: 7px;
+            background: #3A3028;
+            z-index: 6;
+        }
+        .mascot-bag::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: -9px;
+            width: 14px;
+            height: 12px;
+            border: 2px solid #211D19;
+            border-bottom: 0;
+            border-radius: 10px 10px 0 0;
+        }
+        .mascot-dog { --fur: #F4EFE4; --fur-dark: #D8C7AA; --ear: #E7D7C6; }
+        .mascot-dog::before, .mascot-dog::after { top: 24px; height: 46px; border-radius: 58% 58% 70% 70%; background: var(--fur-dark); }
+        .mascot-cat { --fur: #D9C1AE; --fur-dark: #A78976; --ear: #F2C7BF; }
+        .mascot-cat::before, .mascot-cat::after { clip-path: polygon(50% 0, 100% 100%, 0 100%); border-radius: 8px; }
+        .mascot-cat .mascot-head { border-radius: 42% 42% 50% 50%; }
+        .mascot-fox { --fur: #EBA657; --fur-dark: #C97831; --ear: #F3C3A3; }
+        .mascot-fox::before, .mascot-fox::after { clip-path: polygon(50% 0, 100% 100%, 0 100%); border-radius: 8px; }
+        .mascot-fox .mascot-face { width: 58px; height: 40px; top: 41px; clip-path: polygon(50% 100%, 100% 0, 0 0); }
+        
+        .chicment-reco-card {
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #211D19;
+            background:
+                linear-gradient(135deg, color-mix(in srgb, var(--result-soft) 78%, #ffffff 22%) 0%, #FFFCF6 100%);
+            box-shadow: 4px 4px 0 0 #211D19;
+        }
+        .chicment-reco-card::after {
+            content: '';
+            position: absolute;
+            right: -34px;
+            top: -34px;
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            border: 1px solid color-mix(in srgb, var(--result-accent) 40%, transparent);
+            opacity: .55;
+        }
+        .reco-bullet {
+            background: var(--result-accent);
+        }
+        .inline-result-cta {
+            background: #211D19;
+            box-shadow: 0 4px 0 0 #0F0E0D;
+        }
+        .friend-mascot {
+            position: relative;
+            width: 56px;
+            height: 58px;
+            margin: 0 auto 8px;
+        }
+        .friend-mascot::before,
+        .friend-mascot::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            width: 18px;
+            height: 22px;
+            border: 1.5px solid #211D19;
+            background: var(--fur, #E8D2BA);
+            z-index: 0;
+        }
+        .friend-mascot::before { left: 9px; border-radius: 70% 35% 45% 45%; transform: rotate(-18deg); }
+        .friend-mascot::after { right: 9px; border-radius: 35% 70% 45% 45%; transform: rotate(18deg); }
+        .friend-mascot-head {
+            position: absolute;
+            left: 50%;
+            top: 12px;
+            width: 44px;
+            height: 39px;
+            transform: translateX(-50%);
+            border: 1.5px solid #211D19;
+            border-radius: 44% 44% 50% 50%;
+            background: var(--fur, #E8D2BA);
+            z-index: 2;
+        }
+        .friend-mascot-head::before,
+        .friend-mascot-head::after {
+            content: '';
+            position: absolute;
+            top: 14px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #211D19;
+        }
+        .friend-mascot-head::before { left: 13px; }
+        .friend-mascot-head::after { right: 13px; }
+        .friend-mascot-nose {
+            position: absolute;
+            left: 50%;
+            top: 25px;
+            width: 5px;
+            height: 4px;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: #211D19;
+            z-index: 3;
+        }
+        .friend-mascot.good { --fur: color-mix(in srgb, var(--result-soft) 72%, #ffffff 28%); }
+        .friend-mascot.bad { --fur: #EAE3D8; opacity: .86; }
+        .friend-mascot.cat::before,
+        .friend-mascot.cat::after,
+        .friend-mascot.fox::before,
+        .friend-mascot.fox::after { clip-path: polygon(50% 0, 100% 100%, 0 100%); border-radius: 5px; }
+        .friend-mascot.fox { --fur: #EBA657; }
+        .friend-mascot.cat { --fur: #D9C1AE; }
+        .result-purple {
+            --result-accent: #8D65B7;
+            --result-soft: #FFFDFF;
+        }
+        .result-hero-paper {
+            background:
+                radial-gradient(circle, rgba(152,99,199,.18) 0 1px, transparent 1.3px),
+                linear-gradient(180deg, #FFFDFF 0%, #F8F0FF 100%);
+            background-size: 14px 14px, auto;
+        }
+        .result-mascot-panel {
+            background: linear-gradient(180deg, #FFF8E8 0%, #F7EDFF 100%);
+        }
+        .mascot-scene.compact {
+            width: 210px;
+            height: 160px;
+            transform: scale(.95);
+        }
+        .result-check {
+            display: inline-flex;
+            width: 17px;
+            height: 17px;
+            flex: 0 0 17px;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid var(--result-accent);
+            border-radius: 3px;
+            color: var(--result-accent);
+            font-size: 10px;
+            margin-top: 2px;
+        }
+        .result-commerce-box {
+            border-color: color-mix(in srgb, var(--result-accent) 62%, #ffffff 38%);
+            background: rgba(251, 247, 255, .78);
+        }
+        .product-thumb {
+            width: 66px;
+            height: 66px;
+            flex: 0 0 66px;
+            border: 2px solid #211D19;
+            border-radius: 999px;
+            background: #FFFCF6;
+        }
+        .purple-cta {
+            background: var(--result-accent);
+            box-shadow: 0 4px 0 0 color-mix(in srgb, var(--result-accent) 55%, #211D19 45%);
+        }
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--result-accent);
+            font-size: 13px;
+            font-weight: 900;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            height: 1px;
+            flex: 1;
+            background: var(--result-accent);
+        }
+        .friend-card {
+            border-color: #D9C9E8;
+        }
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #211D19;
+            border-radius: 999px;
+            background: #FFFCF6;
+            color: #211D19;
+            font-size: 16px;
+            transition: transform .15s ease;
+        }
+        .share-btn:active { transform: scale(.94); }
+        
+        /* Ending page polish: unified surface + cleaner purple hierarchy */
+        .ending-card {
+            --result-accent: #8D65B7;
+            --result-soft: #FFFDFF;
+            background: #FFFDFF;
+            box-shadow: 5px 5px 0 0 #211D19;
+        }
+        .ending-card::before {
+            opacity: .2;
+            background:
+                radial-gradient(circle, rgba(152,99,199,.12) 0 1px, transparent 1.2px);
+            background-size: 16px 16px;
+            mix-blend-mode: normal;
+        }
+        .result-hero-paper,
+        .result-mascot-panel,
+        .result-commerce-box,
+        .friend-card {
+            background: #FFFDFF;
+        }
+        .result-mascot-panel {
+            border-radius: 18px;
+        }
+        .result-pill {
+            color: #7E4DB0;
+            border-color: rgba(152,99,199,.42);
+            background: #FFFDFF;
+        }
+        .result-commerce-box {
+            border-color: rgba(152,99,199,.45);
+            box-shadow: 0 0 0 1px rgba(152,99,199,.08), 0 10px 24px rgba(33,29,25,.04);
+        }
+        .product-thumb {
+            border-color: rgba(33,29,25,.9);
+            background: #FFFDFF;
+        }
+        .purple-cta {
+            background: #8D65B7;
+            box-shadow: none;
+        }
+        .purple-cta:hover {
+            background: #8755B7;
+        }
+        .section-divider {
+            color: #8D65B7;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            background: rgba(152,99,199,.5);
+        }
+        .friend-card {
+            border: 1px solid rgba(152,99,199,.45);
+            border-radius: 16px;
+            box-shadow: 0 0 0 1px rgba(152,99,199,.08), 0 10px 24px rgba(33,29,25,.04);
+        }
+        .share-btn {
+            border-color: #211D19;
+            background: #FFFDFF;
+        }
+        #result-cta {
+            border-radius: 14px;
+            box-shadow: 0 5px 0 0 #1A1A1A;
+        }
+        /* Requested ending refinements */
+        .result-hero-paper,
+        .result-mascot-panel {
+            background: transparent !important;
+        }
+        .result-mascot-panel {
+            border-radius: 0;
+        }
+        .result-image-divider {
+            height: 1px;
+            margin: 6px 24px 0;
+            background: rgba(152, 99, 199, .62);
+        }
+        .result-commerce-box {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 101% 0%, rgba(152,99,199,.12) 0 56px, transparent 57px),
+                linear-gradient(135deg, #FFFDFF 0%, #F7F1FF 52%, #FFFDFF 100%) !important;
+            border-color: rgba(152,99,199,.46);
+        }
+        .result-commerce-box::after {
+            content: '';
+            position: absolute;
+            right: -28px;
+            top: -30px;
+            width: 92px;
+            height: 92px;
+            border: 1px solid rgba(152,99,199,.24);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .result-commerce-box > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Final ending color and product-card layout refinements */
+        .result-purple {
+            --result-accent: #8D65B7;
+            --result-soft: #FFFDFF;
+        }
+        .ending-card,
+        #view-result,
+        .result-hero-paper,
+        .result-mascot-panel,
+        .friend-card {
+            background: #FFFDFF !important;
+        }
+        .result-pill,
+        .share-btn,
+        .product-thumb {
+            background: #FFFDFF !important;
+        }
+        .result-accent {
+            color: #8D65B7;
+        }
+        .result-pill {
+            color: #8D65B7;
+            border-color: rgba(141,101,183,.42);
+        }
+        .result-image-divider {
+            background: rgba(141,101,183,.62);
+        }
+        .result-check {
+            border-color: #8D65B7;
+            color: #8D65B7;
+        }
+        .result-commerce-box {
+            background:
+                radial-gradient(circle at 0% 0%, rgba(141,101,183,.20) 0 0, rgba(141,101,183,.14) 0 110px, rgba(141,101,183,.06) 210px, transparent 430px),
+                linear-gradient(135deg, rgba(141,101,183,.14) 0%, rgba(255,253,255,.92) 46%, #FFFDFF 100%) !important;
+            border-color: rgba(141,101,183,.46);
+        }
+        .result-commerce-box::after {
+            border-color: rgba(141,101,183,.22);
+        }
+        .product-grid {
+            align-items: stretch;
+        }
+        .product-card {
+            min-width: 0;
+            padding: 18px 12px 16px;
+            border: 1px solid rgba(33,29,25,.18);
+            border-radius: 16px;
+            background: rgba(255,253,255,.78);
+            text-align: center;
+            box-shadow: 0 10px 18px rgba(33,29,25,.06);
+        }
+        .product-card .product-thumb {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto;
+            border-width: 1.5px;
+        }
+        .purple-cta {
+            background: #8D65B7;
+        }
+        .purple-cta:hover {
+            background: #7F57AA;
+        }
+        .section-divider,
+        .section-divider::before,
+        .section-divider::after {
+            color: #8D65B7;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            background: rgba(141,101,183,.55);
+        }
+        .friend-card {
+            border-color: rgba(141,101,183,.36);
+        }
+        /* Outer result surface cleanup */
+        #view-result .result-hero-paper,
+        #view-result .result-mascot-panel,
+        #view-result .result-commerce-box,
+        #view-result .product-card,
+        #view-result .friend-card {
+            background: transparent !important;
+        }
+        /* Center card gradient adjustment */
+        .result-commerce-box {
+            background:
+                radial-gradient(circle at 0% 0%, rgba(141,101,183,.22) 0 0, rgba(141,101,183,.18) 0 150px, rgba(141,101,183,.10) 300px, rgba(141,101,183,.04) 440px, transparent 620px),
+                linear-gradient(135deg, rgba(141,101,183,.12) 0%, rgba(255,253,255,.94) 62%, #FFFDFF 100%) !important;
+        }
+        .result-commerce-box::after {
+            display: none;
+        }
+        /* Restore main card purple gradient */
+        #view-result .result-commerce-box {
+            background:
+                linear-gradient(135deg, rgba(141,101,183,.26) 0%, rgba(141,101,183,.16) 28%, rgba(141,101,183,.07) 52%, rgba(255,253,255,.96) 78%, #FFFDFF 100%) !important;
+        }
+        /* Dynamic result accent colors */
+        #view-result {
+            --result-accent: #8D65B7;
+            --result-soft: #FFFDFF;
+        }
+        #view-result .result-accent {
+            color: var(--result-accent) !important;
+        }
+        #view-result .result-pill {
+            color: var(--result-accent) !important;
+            border-color: color-mix(in srgb, var(--result-accent) 42%, #ffffff 58%) !important;
+            background: color-mix(in srgb, var(--result-soft) 72%, #FFFDFF 28%) !important;
+        }
+        #view-result .result-image-divider {
+            background: color-mix(in srgb, var(--result-accent) 62%, transparent) !important;
+        }
+        #view-result .result-check {
+            border-color: var(--result-accent) !important;
+            color: var(--result-accent) !important;
+        }
+        #view-result .result-commerce-box {
+            background:
+                linear-gradient(135deg,
+                    color-mix(in srgb, var(--result-accent) 26%, transparent) 0%,
+                    color-mix(in srgb, var(--result-accent) 16%, transparent) 28%,
+                    color-mix(in srgb, var(--result-accent) 7%, transparent) 52%,
+                    rgba(255,253,255,.96) 78%,
+                    #FFFDFF 100%) !important;
+            border-color: color-mix(in srgb, var(--result-accent) 46%, #ffffff 54%) !important;
+        }
+        #view-result .purple-cta {
+            background: var(--result-accent) !important;
+        }
+        #view-result .section-divider,
+        #view-result .section-divider::before,
+        #view-result .section-divider::after {
+            color: var(--result-accent) !important;
+        }
+        #view-result .section-divider::before,
+        #view-result .section-divider::after {
+            background: color-mix(in srgb, var(--result-accent) 55%, transparent) !important;
+        }
+        #view-result .friend-card {
+            border-color: color-mix(in srgb, var(--result-accent) 36%, #ffffff 64%) !important;
+        }
+        /* Product cards sit above the gradient */
+        #view-result .product-card {
+            background: #FFFDFF !important;
+            border-color: rgba(33,29,25,.18);
+            box-shadow: 0 10px 18px rgba(33,29,25,.08);
+        }
+        #view-result .product-thumb {
+            background: #FFFDFF !important;
+        }
+        /* CTA depth refinements */
+        #view-result .purple-cta {
+            box-shadow: 0 5px 0 0 color-mix(in srgb, var(--result-accent) 58%, #211D19 42%) !important;
+        }
+        #view-result .purple-cta:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 0 color-mix(in srgb, var(--result-accent) 58%, #211D19 42%) !important;
+        }
+        .stamp-seal {
+            background: var(--result-accent);
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--result-accent) 18%, transparent);
+        }
+
+        /* ---------------------------------------------------- */
+        /* [디테일 커스텀] 옐로우 테마 / 다홍색 소프트 레이저 지정 */
+        /* ---------------------------------------------------- */
+        .gold-accent { color: #D4AF37; }
+        .gold-border { border-color: #D4AF37; }
+        .gold-capsule { background-color: #FFFDF0; border-color: #E6C229; }
+        .scan-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* 레이저 바 슬림화(2px) 및 끝이 흐려지는 소프트 다홍빛 그라데이션 */
+        .scan-laser {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,69,0,0.02), rgba(255,69,0,0.5), #FF5533, rgba(255,69,0,0.5), rgba(255,69,0,0.02));
+            box-shadow: 0 0 10px 2px rgba(255, 69, 0, 0.4);
+            animation: scanMove 2s ease-in-out infinite; /* 주기를 2초로 지정 */
+            z-index: 10;
+        }
+        /* 2초 주기로 위아래 스캔 연출 */
+        @keyframes scanMove {
+            0%, 100% { top: 10%; }
+            50% { top: 90%; }
+        }
+        /* 명품 3종 아이콘 컴포넌트 */
+        .rotate-icon {
+            position: absolute;
+            font-size: 5rem;
+            color: #211D19;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+            z-index: 5;
+        }
+        .rotate-icon.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* 결과 4색 밸런스 순환 매핑용 클래스 */
+        .q-theme-0 { --q-accent: #D25F7A; --q-soft: #FDF2F5; } 
+        .q-theme-1 { --q-accent: #10B981; --q-soft: #ECFDF5; } 
+        .q-theme-2 { --q-accent: #D4AF37; --q-soft: #FFFDF0; } 
+        .q-theme-3 { --q-accent: #8D65B7; --q-soft: #F4EDF8; } 
+
+        .dynamic-question-visual {
+            background-color: var(--q-soft, #F4EDF8);
+            border-color: #211D19;
+        }
+        .dynamic-option-btn:hover {
+            background-color: var(--q-soft, #F7F1FF) !important;
+        }
+        .dynamic-progress-fill {
+            background-color: var(--q-accent, #10B981) !important;
+        }
+    
+        /* Final result page replacement styles */
+        #view-result {
+            --result-accent: #8D65B7;
+            --result-soft: #FFFDFF;
+            background: #FFFDFF !important;
+        }
+        #view-result .result-hero-paper,
+        #view-result .result-mascot-panel {
+            background: transparent !important;
+            box-shadow: none !important;
+            border: 0 !important;
+        }
+        #view-result .result-pill {
+            color: var(--result-accent) !important;
+            border-color: color-mix(in srgb, var(--result-accent) 42%, #ffffff 58%) !important;
+            background: #FFFDFF !important;
+        }
+        #view-result .result-accent,
+        #view-result .metric-icon,
+        #view-result .metric-value {
+            color: var(--result-accent) !important;
+        }
+        #view-result .result-image-divider {
+            height: 1px;
+            margin: 6px 24px 0;
+            background: color-mix(in srgb, var(--result-accent) 62%, transparent) !important;
+        }
+        .style-metrics {
+            margin-top: 20px;
+        }
+        .metric-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .metric-icon {
+            width: 20px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+        .metric-row > span:nth-child(2) {
+            width: 55px;
+            flex-shrink: 0;
+            font-size: 13px;
+            font-weight: 800;
+            color: #211D19;
+        }
+        .metric-track {
+            flex: 1;
+            height: 8px;
+            background: #ECECEC;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .metric-fill {
+            display: block;
+            height: 100%;
+            width: 0%;
+            border-radius: 999px;
+            background: var(--result-accent);
+            transition: width .45s ease;
+        }
+        .metric-value {
+            width: 28px;
+            text-align: right;
+            font-size: 13px;
+            font-weight: 900;
+        }
+        #view-result .result-commerce-box {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg,
+                color-mix(in srgb, var(--result-accent) 16%, transparent) 0%,
+                color-mix(in srgb, var(--result-accent) 7%, transparent) 40%,
+                #FFFDFF 100%) !important;
+            border-color: color-mix(in srgb, var(--result-accent) 46%, #ffffff 54%) !important;
+            box-shadow: 0 0 0 1px color-mix(in srgb, var(--result-accent) 10%, transparent), 0 10px 24px rgba(33,29,25,.04);
+        }
+        #view-result .result-commerce-box::after {
+            display: none !important;
+        }
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .item-row {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        /* 
+           수정사항: 변경된 포인트 항목들에 맞는 아이콘 추가하되, 
+           결과유형에 맞는 컬러를 사용하고 크기를 조금 줄일 것 
+           그리고 테두리를 메인컬러보다 연한 색으로 얇게 두를 것
+        */
+        .item-thumb {
+            width: 44px; /* 크기 조금 축소 (기존 56px -> 44px) */
+            height: 44px;
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--result-accent) 8%, #FFFDFF) !important;
+            border: 1px solid color-mix(in srgb, var(--result-accent) 26%, transparent) !important;
+            color: var(--result-accent) !important;
+            font-size: 15px; /* 아이콘 크기도 함께 살짝 축소 */
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .item-title {
+            font-size: 15px;
+            font-weight: 900;
+            color: #211D19;
+            margin-bottom: 4px;
+        }
+        .item-copy {
+            font-size: 12px;
+            line-height: 1.55;
+            font-weight: 600;
+            color: #4B4B4B;
+        }
+        #view-result .purple-cta {
+            background: var(--result-accent) !important;
+            box-shadow: 0 5px 0 0 color-mix(in srgb, var(--result-accent) 58%, #211D19 42%) !important;
+        }
+        #view-result .purple-cta:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 0 color-mix(in srgb, var(--result-accent) 58%, #211D19 42%) !important;
+        }
+        #view-result .section-divider {
+            color: var(--result-accent) !important;
+        }
+        #view-result .section-divider::before,
+        #view-result .section-divider::after {
+            background: color-mix(in srgb, var(--result-accent) 55%, transparent) !important;
+        }
+        #view-result .friend-card {
+            background: transparent !important;
+            border-color: color-mix(in srgb, var(--result-accent) 36%, #ffffff 64%) !important;
+        }
+
+        /* Uploaded result character images */
+        .result-character-img {
+            width: 170px;
+            height: 170px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+            filter: drop-shadow(0 10px 12px rgba(33,29,25,.14));
+        }
+        .friend-character-img {
+            width: 58px;
+            height: 58px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 8px;
+        }
+        #result-one-liner {
+            color: #5F5750;
+        }
+
+        /* Mobile touch fix: prevent sticky hover / pre-selection visual reaction */
+        @media (hover: none), (pointer: coarse) {
+            .premium-shadow-hover:hover {
+                transform: none !important;
+                box-shadow: 5px 5px 0px 0px #211D19 !important;
+            }
+            .premium-shadow-hover:active {
+                transform: translate(1px, 1px) !important;
+                box-shadow: 4px 4px 0px 0px #211D19 !important;
+            }
+            .dynamic-option-btn:hover {
+                background-color: #FFFCF6 !important;
+            }
+            .dynamic-option-btn:active {
+                background-color: var(--q-soft, #F7F1FF) !important;
+            }
+            button,
+            a {
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-neutral-800 selection:text-white">
+
+<main class="flex-grow flex items-center justify-center p-[3px] md:p-8">
+        <div class="w-full max-w-lg bg-[#FFFDFF] rounded-[28px] premium-border premium-shadow-lg p-2 md:p-8 relative overflow-hidden my-4">
+            
+            <div id="view-home" class="fade-transition opacity-100 flex flex-col items-center text-center py-6">
+                <div class="luxury-capsule mb-4 inline-flex items-center gap-2 gold-capsule text-[#211D19] border text-xs font-bold rounded-full uppercase tracking-wider">
+                    <span class="luxury-capsule-dot inline-block rounded-full bg-[#E6C229]"></span>
+                    FIND YOUR IDENTITY
+                </div>
+                
+                <!-- 수정사항: '쇼핑 하기 전 알아보는' 문구의 볼드 처리를 제거(font-normal)하고, '나의 명품 아이덴티티' 문구에만 볼드(font-extrabold) 부여 -->
+                <h1 class="text-2xl md:text-3xl text-neutral-900 tracking-tight leading-tight mb-4 font-normal">
+                    쇼핑 하기 전 알아보는<br>
+                    <span class="serif-title italic font-extrabold gold-accent border-b-4 gold-border">나의 명품 아이덴티티</span>
+                </h1>
+                
+                <p class="text-sm md:text-base text-[#5F5750] font-medium max-w-sm mb-8 leading-relaxed">
+                    끌리는 명품에는 분명한 이유가 있습니다.<br>
+                    당신은 어떤 기준으로 소비하는 사람일까요?
+                </p>
+
+                <div class="w-full bg-[#FFFDF0] border-2 border-[#211D19] rounded-[18px] p-6 mb-8 relative overflow-hidden h-64 flex items-center justify-center">
+                    <div class="scan-container">
+                        <div class="scan-laser"></div>
+                        <i class="fa-solid fa-bag-shopping rotate-icon active" id="icon-bag"></i>
+                        <i class="fa-solid fa-gem rotate-icon" id="icon-gem"></i>
+                        <i class="fa-solid fa-crown rotate-icon" id="icon-crown"></i>
+                    </div>
+                </div>
+
+                <!-- 수정사항: 첫 시작 화면의 CTA 문구를 '테스트 시작하기 ▶'로 변경 -->
+                <button onclick="startTest()" class="w-full bg-[#211D19] text-white hover:bg-[#3A332C] text-base font-bold py-4 rounded-xl premium-border premium-shadow premium-shadow-hover transition duration-150 flex items-center justify-center gap-2">
+                    <span>테스트 시작하기 ▶</span>
+                </button>
+                
+                <div class="mt-4 text-[11px] text-neutral-400 flex items-center gap-1">
+                    <i class=" text-[10px]"></i>
+                    로그인 없이 바로 테스트가 가능합니다
+                </div>
+            </div>
+
+            <div id="view-test" class="hidden opacity-0 fade-transition q-theme-0">
+                <div class="mb-6 mt-[50px]">
+                    <div class="flex items-center gap-3">
+                        <span id="current-question-indicator" class="text-xs font-extrabold text-[#211D19] shrink-0">
+                            Q. 1 / 7
+                        </span>
+                        <div class="w-full h-4 bg-[#FFFDFF] rounded-full border-2 border-[#211D19] overflow-hidden p-0.5">
+                            <div id="progress-bar-fill" class="h-full dynamic-progress-fill rounded-full transition-all duration-300 progress-striped" style="width: 14.3%;"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center mt-7 mb-7">
+                        <div id="visual-icon-container" class="question-visual dynamic-question-visual rounded-full border-2 flex items-center justify-center text-[#211D19]">
+                            <span id="question-visual-icon" class="fa-solid fa-bag-shopping text-4xl" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 id="question-text" class="text-lg md:text-xl font-bold text-[#211D19] leading-relaxed text-center mb-6">
+                        다음 달 있을 동창회,내가 들고 가고 싶은 가방은?
+                    </h2>
+
+                <div class="flex flex-col gap-4 mt-8">
+                    <button id="option-a-btn" onclick="handleSelectAnswer('A')" class="w-full text-left bg-[#FFFCF6] dynamic-option-btn p-5 rounded-[18px] border-2 border-[#211D19] premium-shadow premium-shadow-hover transition duration-150 flex items-center gap-4">
+                        <span class="w-6 h-6 rounded-full bg-[#211D19] text-white flex items-center justify-center text-xs font-bold leading-none shrink-0">A</span>
+                        <span id="option-a-text" class="text-sm md:text-base font-semibold text-[#211D19] leading-normal">
+                            멀리서도 브랜드가 보이는 아이코닉 백
+                        </span>
+                    </button>
+
+                    <button id="option-b-btn" onclick="handleSelectAnswer('B')" class="w-full text-left bg-[#FFFCF6] dynamic-option-btn p-5 rounded-[18px] border-2 border-[#211D19] premium-shadow premium-shadow-hover transition duration-150 flex items-center gap-4">
+                        <span class="w-6 h-6 rounded-full border-2 border-[#211D19] bg-[#FFFDFF] text-[#211D19] flex items-center justify-center text-xs font-bold leading-none shrink-0">B</span>
+                        <span id="option-b-text" class="text-sm md:text-base font-semibold text-[#211D19] leading-normal">
+                            아는 사람만 알아보는 조용한 명품, 로고리스 백
+                        </span>
+                    </button>
+                </div>
+
+                <div class="mt-8 flex justify-center">
+                    <button onclick="goPrevQuestion()" id="prev-btn" class="text-xs font-bold text-neutral-400 hover:text-neutral-900 transition flex items-center gap-1.5 py-1">
+                        <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                        이전 질문으로 가기
+                    </button>
+                </div>
+            </div>
+
+            <div id="view-loading" class="hidden opacity-0 fade-transition py-12 flex flex-col items-center justify-center text-center">
+                <div class="relative w-24 h-24 mb-6">
+                    <div class="absolute inset-0 rounded-full border-4 border-amber-100"></div>
+                    <div class="absolute inset-0 rounded-full border-4 border-t-amber-500 animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-2xl animate-pulse">✨</span>
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-neutral-900 mb-2">당신의 명품 페르소나 매칭 중</h3>
+                <p class="text-xs text-neutral-500 leading-relaxed font-medium">
+                    취향 데이터를 수집하여 완벽한 하이엔드<br>
+                    브랜드 매칭 카드를 설계하고 있습니다.
+                </p>
+            </div>
+
+            <div id="view-result" class="hidden opacity-0 fade-transition pb-5 result-purple text-center">
+                    <div class="result-hero-paper mx-1 mt-[22px] px-3 pt-6 pb-7 text-center">
+                        <span class="result-pill inline-flex items-center justify-center rounded-full border px-4 py-1 text-[10px] font-black tracking-[0.16em] uppercase">
+                            TEST RESULT
+                        </span>
+                        <h2 class="mt-5 text-base font-black leading-tight text-[#211D19]">
+                            <span id="result-sub-title">당신은,</span><br>
+                            <span id="result-main-title" class="result-accent my-2 inline-block text-4xl md:text-5xl leading-[1.12]">공홈 밖<br>보물찾기형</span><br>
+                            <span class="text-sm">타입이에요.</span>
+                        </h2>
+                        <div id="result-tags" class="result-pill mt-4 inline-flex max-w-full items-center justify-center rounded-lg border px-3 py-1 text-[10px] font-extrabold">
+                            #희소템 #타이밍 #공홈밖보물
+                        </div>
+                        <p id="result-one-liner" class="mt-3 text-sm font-bold leading-relaxed">
+                            남들이 못 찾는 매물에서 설렘을 느끼는 타입이에요.
+                        </p>
+                    </div>
+
+                    <div class="result-mascot-panel mx-auto mt-3 mb-[30px] flex h-[170px] w-[230px] items-center justify-center overflow-hidden">
+                        <img id="result-character-image" class="result-character-img" src="" alt="결과 캐릭터">
+                    </div>
+
+                    <div class="result-image-divider"></div>
+
+                    <div class="px-2 pt-6 pb-8 text-left">
+                        <h3 class="mb-5 text-center text-2xl font-black result-accent">당신의 쇼핑스타일은?</h3>
+
+                        <div class="style-metrics space-y-3">
+                            <div class="metric-row">
+                                <span class="metric-icon"><i id="result-metric-1-icon" class="fa-regular fa-gem"></i></span>
+                                <span id="result-metric-1-label">희소성</span>
+                                <span class="metric-track"><span id="result-metric-1-fill" class="metric-fill"></span></span>
+                                <span id="result-metric-1-value" class="metric-value">95</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-icon"><i id="result-metric-2-icon" class="fa-solid fa-arrow-trend-up"></i></span>
+                                <span id="result-metric-2-label">투자성</span>
+                                <span class="metric-track"><span id="result-metric-2-fill" class="metric-fill"></span></span>
+                                <span id="result-metric-2-value" class="metric-value">80</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-icon"><i id="result-metric-3-icon" class="fa-regular fa-bookmark"></i></span>
+                                <span id="result-metric-3-label">브랜드</span>
+                                <span class="metric-track"><span id="result-metric-3-fill" class="metric-fill"></span></span>
+                                <span id="result-metric-3-value" class="metric-value">40</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-icon"><i id="result-metric-4-icon" class="fa-regular fa-star"></i></span>
+                                <span id="result-metric-4-label">트렌드</span>
+                                <span class="metric-track"><span id="result-metric-4-fill" class="metric-fill"></span></span>
+                                <span id="result-metric-4-value" class="metric-value">35</span>
+                            </div>
+                        </div>
+
+                        <div class="hidden">
+                            <span id="result-stat-1-label"></span><div id="result-stat-1-fill"></div>
+                            <span id="result-stat-2-label"></span><div id="result-stat-2-fill"></div>
+                            <span id="result-stat-3-label"></span><div id="result-stat-3-fill"></div>
+                            <span id="result-trait-1"></span><span id="result-trait-2"></span><span id="result-trait-3"></span>
+                            <p id="result-description"></p><p id="result-quote"></p>
+                            <span id="result-product-1-brand"></span><span id="result-product-1-name"></span>
+                            <span id="result-product-2-brand"></span><span id="result-product-2-name"></span>
+                        </div>
+
+                        <div class="result-commerce-box mt-7 rounded-2xl border p-4 md:p-[24px]">
+                            <p id="result-item-box-title" class="mb-5 text-sm font-black text-[#211D19]">
+                                👑 공홈 밖 보물찾기형인 당신에게 잘 어울릴 아이템
+                            </p>
+
+                            <div class="item-list">
+                                <div class="item-row">
+                                    <div id="result-item-1-icon" class="item-thumb flex items-center justify-center text-lg shrink-0" aria-hidden="true"></div>
+                                    <div>
+                                        <p id="result-item-1-title" class="item-title">해외 한정판</p>
+                                        <p id="result-item-1-copy" class="item-copy">내 마음에 쏙 드는 명품이 매장에 없다면, 국내엔 없는 한정 미발매 모델도 확인해보세요</p>
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div id="result-item-2-icon" class="item-thumb flex items-center justify-center text-lg shrink-0" aria-hidden="true"></div>
+                                    <div>
+                                        <p id="result-item-2-title" class="item-title">빈티지 미개봉</p>
+                                        <p id="result-item-2-copy" class="item-copy">리미티드 에디션은 시간이 지날수록 더 특별한 선택이 될 수 있어요</p>
+                                    </div>
+                                </div>
+                                <div class="item-row">
+                                    <div id="result-item-3-icon" class="item-thumb flex items-center justify-center text-lg shrink-0" aria-hidden="true"></div>
+                                    <div>
+                                        <p id="result-item-3-title" class="item-title">리미티드 에디션</p>
+                                        <p id="result-item-3-copy" class="item-copy">남들과 겹치지 않는 시즌 컬러와 단종 라인을 먼저 살펴보세요</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a id="result-inline-cta" href="https://chicment.com" target="_blank" rel="noopener noreferrer" class="purple-cta mt-6 block rounded-xl px-4 py-4 text-center text-sm font-black text-white transition active:translate-y-1">
+                                나랑 어울리는 명품 구경가기 &gt;
+                            </a>
+                            <!-- 첫번째 cta 바로 밑의 보조 문구 -->
+                            <p id="result-inline-cta-subtext" class="mt-2 text-center text-[11px] font-bold text-[#606060] hidden">
+                                내눈에 예쁘면 남눈에도 예쁘니, 선점하세요!
+                            </p>
+
+                            <div class="section-divider my-5"><span>✦</span></div>
+
+                            <p class="mb-3 text-xs font-black text-[#211D19]">👑 시크먼트 TIP!</p>
+                            <p id="result-reco-copy" class="text-sm font-bold leading-relaxed text-[#211D19]">
+                                공홈에는 품절되어 더 이상 구할 수 없는 한정판, 프리미엄 모델만 모았습니다.
+                            </p>
+                            <ul id="result-reco-points-list" class="mt-3 space-y-1 text-xs font-extrabold result-accent">
+                                <li>- <span id="result-reco-point-1">국내 미출시/해외 직구 한정 컬러 모델</span></li>
+                                <li>- <span id="result-reco-point-2">단종되어 소장 가치가 올라간 리미티드 에디션</span></li>
+                                <li>- <span id="result-reco-point-3">내가 갖고 있는 명품과 잘 어울릴만한 아이템 확인해보세요</span></li>
+                            </ul>
+
+                            <a id="result-tip-cta" href="https://chicment.com" target="_blank" rel="noopener noreferrer" class="purple-cta mt-5 block rounded-xl px-4 py-4 text-center text-sm font-black text-white transition active:translate-y-1">
+                                시크먼트에서 단종 제품 찾아보기 &gt;
+                            </a>
+                        </div>
+
+                        <div class="mt-8 grid grid-cols-2 gap-3">
+                            <div class="friend-card rounded-2xl border p-4 text-center">
+                                <p class="mb-2 text-[11px] font-black text-[#8B8175]">같이 쇼핑 가면 잘 맞는 친구</p>
+                                <img id="result-good-character" class="friend-character-img" src="" alt="잘 맞는 친구 캐릭터">
+                                <p id="result-good-friend" class="text-sm font-black text-[#211D19] leading-tight">실물파 감성 친구</p>
+                            </div>
+
+                            <div class="friend-card rounded-2xl border p-4 text-center">
+                                <!-- 수정사항: 모든 결과 유형의 '같이 가면 안 맞는 친구' 캡션을 '같이 쇼핑 가면 안 맞는 친구'로 변경 -->
+                                <p class="mb-2 text-[11px] font-black text-[#8B8175]">같이 쇼핑 가면 안 맞는 친구</p>
+                                <img id="result-bad-character" class="friend-character-img" src="" alt="안 맞는 친구 캐릭터">
+                                <p id="result-bad-friend" class="text-sm font-black text-[#211D19] leading-tight">극강의 계산기 친구</p>
+                            </div>
+                        </div>
+
+                        <p class="mt-8 text-center text-xs font-bold text-[#5F5750]">
+                            다른 유형이 궁금하다면? 친구에게 공유해보세요!
+                        </p>
+
+                        <div class="mt-4 flex justify-center gap-5">
+                            <button onclick="copyPageLink()" class="share-btn" title="링크 복사"><i class="fa-solid fa-link"></i></button>
+                            <button onclick="shareInstagram()" class="share-btn" title="인스타 공유"><i class="fa-brands fa-instagram"></i></button>
+                            <button onclick="downloadStoryImage()" class="share-btn" title="이미지 다운"><i class="fa-solid fa-download"></i></button>
+                        </div>
+
+                        <div class="mt-7 text-center">
+                            <button onclick="resetTest()" class="inline-flex items-center gap-2 text-xs font-bold text-[#9A948E] hover:text-[#6F6862] transition">
+                                <i class="fa-solid fa-rotate-right text-[11px]"></i>
+                                테스트 처음부터 다시 하기
+                            </button>
+                        </div>
+                    </div>
+                
+                    <!-- 수정사항: 플러팅 CTA의 문구를 '내 유형에 맞는 명품 소식 보러 가기 ▶'로 변경 -->
+                    <a id="result-cta"
+                       href="https://chicment.com"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="fixed left-1/2 bottom-6 z-50 w-[85%] max-w-[400px] -translate-x-1/2 bg-[#050505] text-white text-sm md:text-base font-extrabold py-[15px] px-5 rounded-xl text-center shadow-[0_6px_0_0_#1A1A1A]">
+                        내 유형에 맞는 명품 소식 보러 가기 ▶
+                    </a>
+                </div>
+
+        </div>
+    </main>
+
+    <div id="toast-container" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-[100] pointer-events-none transition-all duration-300 opacity-0 translate-y-4">
+        <div id="toast-message" class="bg-neutral-900 text-white text-xs md:text-sm font-semibold px-6 py-3 rounded-full shadow-lg border border-white/20 flex items-center gap-2">
+            <i class="fa-solid fa-circle-check text-green-400"></i>
+            <span>메시지가 복사되었습니다!</span>
+        </div>
+    </div>
+
+    <script>
+        // 레이저 바 이동 속도(왕복 2초)에 최적화된 동기화 로테이션 시스템
+        const landingIcons = ['icon-bag', 'icon-gem', 'icon-crown'];
+        let currentIconIdx = 0;
+
+        function rotateLandingIcons() {
+            const currentId = landingIcons[currentIconIdx];
+            const currentEl = document.getElementById(currentId);
+            if (currentEl) currentEl.classList.remove('active');
+
+            currentIconIdx = (currentIconIdx + 1) % landingIcons.length;
+
+            const nextId = landingIcons[currentIconIdx];
+            const nextEl = document.getElementById(nextId);
+            if (nextEl) nextEl.classList.add('active');
+        }
+
+        // 레이저 바가 정중앙을 지나치는 시점(0.5초 내려갈 때 중앙, 1.5초 올라올 때 중앙)에 맞추어 아이콘 교체 트리거
+        setTimeout(() => {
+            rotateLandingIcons();
+            setInterval(rotateLandingIcons, 1000);
+        }, 500);
+
+        // 1. Data Definitions for Questions and Answers
+        const questions = [
+            {
+                text: "다음 달 있을 동창회,<br>내가 들고 가고 싶은 가방은?",
+                icon: "fa-bag-shopping",
+                A: "멀리서도 브랜드가 보이는 아이코닉 백",
+                B: "아는 사람만 알아보는 조용한 명품, 로고리스 백"
+            },
+            {
+                text: "첫 명품 가방을 사려고 한다.<br>이 때 나의 선택은?",
+                icon: "fa-gem",
+                A: "지금 내 마음에 쏙 드는 걸로 사야지",
+                B: "10년 뒤에도 가치 있는 걸로 골라야지"
+            },
+            {
+                text: "백화점에서 마음에 드는 걸 발견했다.<br>내가 할 일은?",
+                icon: "fa-store",
+                A: "스타일링 후기/사용 후기 찾아보기",
+                B: "백화점/면세점 프로모션 찾아보기"
+            },
+            {
+                text: "몇 가지 후보 중에 고민이 된다.<br>나의 결정은?",
+                icon: "fa-scale-balanced",
+                A: "착용했을 때 예쁜 게 답이지",
+                B: "소재, 크기 다 완벽하다 이걸로 해야지"
+            },
+            {
+                text: "셀러에게 들었을 때<br>가장 설레는 문장은?",
+                icon: "fa-comment-dots",
+                A: "한국에 몇개 안 들어온 모델이에요",
+                B: "이 가격대로는 곧 보기 어려울 수 있어요"
+            },
+            {
+                text: "유저 거래 사이트에서<br>원하던 제품을 발견했다!<br>내가 행복한 이유는?",
+                icon: "fa-magnifying-glass",
+                A: "공홈에는 없는 단종/희귀템을 찾았다",
+                B: "미개봉 제품을 20% 저렴하게 발견했다"
+            },
+            {
+                text: "동창이 들고 온 가방이 너무 맘에 든다.<br>하지만 단종된 모델일 때, 당신의 생각은?",
+                icon: "fa-user-group",
+                A: "아쉽지만 어쩔 수 없지..",
+                B: "그럼 어디서 구할 수 있을까?"
+            }
+        ];
+
+        // 2. Data Definitions for Results Personas
+        const personas = {
+            A: {
+                brand: "득템 리서처",
+                subTitle: "당신은,",
+                mainTitle: "득템<br>리서처형",
+                profile: "ABBABBB",
+                image: "https://placehold.co/220x190/FDF2F5/D25F7A?text=Reseacher",
+                oneLiner: "예쁜 것도 중요하지만, 결국 좋은 조건을 끝까지 찾아내는 타입.",
+                description: "당신은 명품을 고를 때 무드와 실속을 함께 봅니다. 마음에 드는 디자인을 발견하면 바로 끝내기보다 후기, 가격, 거래 조건까지 확인하고 가장 만족도 높은 선택지를 찾는 편이에요.",
+                
+                // 수정사항: 득템 리서처형의 팁 내용 삭제 및 대체 (실시간 인상 주기 기반)
+                goodMatch: `명품 가격 인상은 보통 예고 없이 발표돼요. <br>인상 직전엔 백화점 재고가 평소보다 빨리 빠지는 경향이 있고요.<br><br><span style="color: #606060; font-style: italic;">근데 매일 매장 돌면서 확인하기는 사실 비효율적이죠. <br>인상 소식과 실시간 재고, 한 곳에서 보는 게 빨라요.</span>`,
+                recoPoints: ["실제 착샷과 사용 후기를 함께 볼 수 있는 인기백", "정가 대비 조건이 좋은 미개봉/새상품급 매물"],
+                products: [["프라다", "리나일론 호보백\n데일리 블랙"], ["구찌", "재키 숄더백\n클래식 브라운"]],
+                
+                // 수정사항: 득템 리서처형의 두 번째 CTA 문구 및 화살표 변경
+                tipCtaText: "남들보다 빠르게 가격 인상 소식 확인하기 ▶",
+                ctaText: "조건 좋은 명품 매물 보러가기 ▶",
+                ctaUrl: "https://chicment.com",
+                tags: "#가격체크 #후기탐색 #득템감각",
+                traits: ["후기와 가격을 같이 확인해야 마음이 편해요", "예쁜데 조건까지 좋으면 바로 끌려요", "품절템도 다른 경로를 먼저 찾아보는 편이에요"],
+                stats: [["탐색력", 92], ["가격 감각", 88], ["무드 감지", 74]],
+                
+                // 수정사항: 같이 쇼핑 가면 잘 맞는 친구 부연설명 변경
+                goodFriend: "정보 빠른 친구",
+                badFriend: "즉흥 플렉스 친구",
+                goodFriendKey: "C",
+                badFriendKey: "B",
+                quote: "예쁘고 조건까지 좋으면 그게 진짜 득템이죠.",
+                accent: "#D25F7A",
+                soft: "#FDF2F5"
+            },
+            B: {
+                brand: "럭셔리 무드 플렉서",
+                subTitle: "당신은,",
+                mainTitle: "럭셔리 무드<br>플렉서형",
+                profile: "AAAAAAA",
+                image: "https://placehold.co/220x190/FFFDF0/D4AF37?text=Mood+Flexer",
+                oneLiner: "가격보다 중요한 건, 내가 들었을 때 완성되는 분위기.",
+                description: "당신에게 명품은 단순한 물건보다 이미지와 분위기에 가깝습니다. 브랜드가 주는 존재감, 착용했을 때의 무드, 남들이 자연스럽게 알아봐주는 포인트에 강하게 끌리는 타입이에요.",
+                goodMatch: "매장 워크인은 오픈 직후, 평일에 갈수록 구매 확률이 올라가요.<br>직원에게 관심 모델을 구체적으로 말할수록 응대가 빨라지고요. <br><br><span style=\"color: #606060; font-style: italic;\">근데 이런 방문 전략보다 더 중요한 게 하나 있어요 ㅡ <br>애초에 그 컬러가 어디에 있는지 아는 것,<br>그건 발품보다 커뮤니티 정보가 빠릅니다.</span>",
+                recoPoints: ["실제 착샷으로 분위기를 확인하기 좋은 아이코닉 백", "지금 가장 많이 언급되는 인기 컬러와 시즌 라인"],
+                products: [["미우미우", "마테라쎄 백\n뉴트럴 컬러"], ["셀린느", "트리오페 숄더백\n데일리 블랙"]],
+                tipCtaText: "매거진에서 득템 정보 얻으러가기 ▶",
+                ctaText: "실제 명품 착용 스타일링 보기 ▶",
+                ctaUrl: "https://chicment.com",
+                tags: "#무드중요 #아이코닉백 #착샷필수",
+                traits: ["브랜드의 첫인상과 무드를 중요하게 봐요", "착용했을 때 예쁜지가 가장 큰 기준이에요", "희소한 모델이면 더 설레는 편이에요"],
+                stats: [["무드 감지", 96], ["브랜드 존재감", 90], ["희소성 반응", 84]],
+                goodFriend: "사진 잘 찍는 친구",
+                badFriend: "스펙만 보는 친구",
+                goodFriendKey: "A",
+                badFriendKey: "D",
+                quote: "결국 중요한 건 내가 들었을 때의 분위기예요.",
+                accent: "#D4AF37",
+                soft: "#FFFDF0"
+            },
+            C: {
+                brand: "시크릿 보물 컬렉터",
+                subTitle: "당신은,",
+                
+                // 수정사항: 시크릿 보물 컬렉터형의 핵심 슬로건에 '남들이 다 사는 것보다,' 및 개행 반영
+                mainTitle: "시크릿 보물<br>컬렉터형",
+                profile: "BAABAAB",
+                image: "https://placehold.co/220x190/ECFDF5/10B981?text=Secret+Collector",
+                oneLiner: "남들이 다 사는 것보다,<br>아는 사람만 아는 한 끗을 좋아하는 타입.",
+                description: "당신은 조용하지만 확실한 취향을 가진 컬렉터입니다. 로고보다 실루엣과 디테일을 보고, 단종이나 한정 모델처럼 남들과 겹치지 않는 아이템을 발견했을 때 만족감이 커요.",
+                
+                // 수정사항: 시크릿 보물 컬렉터형 팁 문구 교체 및 연한 텍스트 컬러(#606060) 적용
+                goodMatch: `단종 모델이나 희소 컬러는 매물 자체가 적어서 <br>발견하는 순간 마음이 급해질 수 있어요. <br> 하지만 같은 희소템이라도 박스, 더스트백, <br>보증서, 영수증 유무에 따라 거래 가치가 달라져요. <br><br><span style="color: #606060; font-style: italic;">근데 매물마다 구성품과 컨디션을 따로 비교하는 건 번거롭죠.<br>매물 정보와 후기를 비교할 수 있도록 한 곳에서 보면 좋아요.</span>`,
+                recoPoints: ["공홈에서는 보기 어려운 시즌 한정 컬러", "후기와 실물 사진으로 확인 가능한 단종/희소 라인"],
+                products: [["에르메스", "켈리 백\n빈티지 골드 하드웨어"], ["샤넬", "시즌 한정 플랩백\n희소 컬러 라인"]],
+                
+                // 수정사항: 시크릿 보물 컬렉터형 두 번째 CTA 및 화살표 변경
+                tipCtaText: "희소템 매물 정보 한번에 보러 가기 ▶",
+                ctaText: "공홈 밖 희소템 보러가기 ▶",
+                ctaUrl: "https://chicment.com",
+                tags: "#조용한취향 #희소템 #공홈밖보물",
+                traits: ["아는 사람만 알아보는 포인트를 좋아해요", "실물 후기와 디테일을 꼭 확인해요", "단종 모델도 포기하지 않고 찾아보는 편이에요"],
+                stats: [["희소성", 95], ["디테일 감지", 86], ["브랜드 절제력", 80]],
+                
+                // 수정사항: 시크릿 보물 컬렉터형 궁합친구들의 부연설명 변경
+                goodFriend: "취향 잘 맞는 친구",
+                badFriend: "인기템만 사는 친구",
+                goodFriendKey: "D",
+                badFriendKey: "B",
+                quote: "흔하지 않은데 예쁜 것, 그게 제일 오래 가요.",
+                accent: "#10B981",
+                soft: "#ECFDF5"
+            },
+            D: {
+                brand: "클래식 감정가",
+                subTitle: "당신은,",
+                mainTitle: "클래식<br>감정가형",
+                profile: "BBBBBAA",
+                image: "https://placehold.co/220x190/F4EDF8/8D65B7?text=Classic+Appraiser",
+                oneLiner: "유행보다 오래 남을 가치와 컨디션을 먼저 보는 타입.",
+                description: "당신은 쉽게 흔들리지 않는 신중한 쇼퍼입니다. 로고의 크기보다 소재, 컨디션, 구성품, 가격 흐름을 꼼꼼히 확인하고 오래 들어도 후회 없는 선택을 원해요.",
+                
+                // 수정사항: 클래식 감정가형 팁 문구 교체 및 연한 텍스트 컬러(#606060) 적용
+                goodMatch: `매장에서 사는 게 아니라면 가품 확인은 철저해야겠죠?<br>이럴 땐 제품의 상태와 가품 여부를 파악하는 게 중요해요.<br><br><span style="color: #606060; font-style: italic;">검수를 대신 해주는 채널에서 거래한다면 <br>시간도 절약하고 안심할 수도 있을 거에요.</span>`,
+                recoPoints: ["구성품과 사용감을 꼼꼼히 비교할 수 있는 클래식백", "오래 들수록 멋이 쌓이는 로고리스/스테디 라인"],
+                products: [["로에베", "퍼즐백\n스몰 탄 컬러"], ["더로우", "마고백\n조용한 럭셔리 라인"]],
+                
+                // 수정사항: 클래식 감정가형 두 번째 CTA 및 화살표 변경
+                tipCtaText: "시크먼트에서 마음 놓고 거래해보세요! ▶",
+                ctaText: "컨디션 좋은 클래식백 비교하기 ▶",
+                ctaUrl: "https://chicment.com",
+                tags: "#컨디션체크 #클래식백 #가치판단",
+                traits: ["소재와 구성품을 꼼꼼히 확인해요", "오래 들어도 질리지 않는 디자인을 선호해요", "가격보다 후회 없는 선택이 더 중요해요"],
+                stats: [["컨디션 체크", 96], ["가치 판단", 92], ["트렌드 저항력", 78]],
+                
+                // 수정사항: 클래식 감정가형 궁합친구들의 부연설명 변경
+                goodFriend: "꼼꼼히 비교하는 친구",
+                badFriend: "충동 구매하는 친구",
+                goodFriendKey: "C",
+                badFriendKey: "B",
+                quote: "좋은 명품은 시간이 지나도 이유가 남아요.",
+                accent: "#8D65B7",
+                soft: "#F4EDF8"
+            }
+        };
+
+        const resultPageContent = {
+            A: {
+                metrics: [["탐색력", 92, "fa-solid fa-magnifying-glass"], ["가격 감각", 88, "fa-solid fa-tags"], ["무드", 74, "fa-regular fa-heart"], ["희소성", 70, "fa-regular fa-gem"]],
+                
+                // 수정사항: 득템 리서처형 타이틀명 포인트로 변경
+                itemBoxTitle: "👑 득템 리서처형인 당신에게 어울릴 포인트",
+                items: [
+                    ["미개봉 할인 매물", "정가보다 좋은 조건인데 상태까지 깔끔한 매물을 먼저 확인해보세요", "fa-solid fa-tags"], 
+                    ["착샷 많은 인기백", "사진과 후기를 함께 보면 내 스타일에 맞는지 빠르게 판단할 수 있어요", "fa-regular fa-images"], 
+                    ["가격 변동 전 인기 라인", "관심 많은 모델은 좋은 조건일 때 먼저 보는 게 유리해요", "fa-solid fa-chart-line"]
+                ],
+                recoPoint3: "착샷, 후기, 가격 조건을 한 번에 비교해보세요"
+            },
+            B: {
+                metrics: [["무드", 96, "fa-regular fa-heart"], ["브랜드", 90, "fa-regular fa-bookmark"], ["희소성", 84, "fa-regular fa-gem"], ["트렌드", 88, "fa-regular fa-star"]],
+                itemBoxTitle: "👑 럭셔리 무드 플렉서형인 당신에게 잘 어울릴 포인트",
+                items: [
+                    ["시그니처 아이코닉", "멀리서도 한 눈에 알아볼 수 있는 대표 라인을 확인해보세요!", "fa-solid fa-crown"], 
+                    ["리미티드 에디션 컬러", "한 끗 다른 컬러가 스타일을 더 돋보이게 해줘요!", "fa-solid fa-palette"], 
+                    ["인기 착용샷", "요즘 많이 찾는 모델의 실제 착용 사진으로 무드를 비교해보세요!", "fa-solid fa-camera"]
+                ],
+                recoPoint3: "내 이미지와 잘 맞는 착샷 중심 명품을 확인해보세요"
+            },
+            C: {
+                metrics: [["희소성", 95, "fa-regular fa-gem"], ["디테일", 86, "fa-solid fa-wand-magic-sparkles"], ["무드", 82, "fa-regular fa-heart"], ["탐색력", 90, "fa-solid fa-magnifying-glass"]],
+                
+                // 수정사항: 시크릿 보물 컬렉터형 타이틀명 포인트로 변경
+                itemBoxTitle: "👑 시크릿 보물 컬렉터형인 당신에게 잘 어울릴 포인트",
+                items: [
+                    ["단종 모델", "더 이상 공홈에서 보기 어려운 라인을 발견하는 재미가 있어요", "fa-solid fa-box-open"], 
+                    ["시즌 한정판", "남들과 겹치지 않는 컬러와 소재를 먼저 살펴보세요", "fa-solid fa-gem"], 
+                    ["후기 검증 희소템", "실제 사용 후기와 실물 사진으로 디테일까지 확인해보세요", "fa-solid fa-magnifying-glass"]
+                ],
+                recoPoint3: "공홈 밖에서만 만날 수 있는 보물 같은 아이템을 찾아보세요"
+            },
+            D: {
+                metrics: [["컨디션", 96, "fa-solid fa-clipboard-check"], ["가치", 92, "fa-solid fa-arrow-trend-up"], ["브랜드", 84, "fa-regular fa-bookmark"], ["트렌드", 42, "fa-regular fa-star"]],
+                
+                // 수정사항: 클래식 감정가형 타이틀명 포인트로 변경 및 컨디션 좋은 매물 -> 소재와 컨디션 변경
+                itemBoxTitle: "👑 클래식 감정가형인 당신에게 잘 어울릴 포인트",
+                items: [
+                    ["클래식 라인", "오래 들어도 질리지 않는 형태와 컬러를 우선으로 확인해보세요", "fa-solid fa-clock"], 
+                    ["소재와 컨디션", "로고보다 가죽 결, 모서리 마감, 핸들 상태를 꼼꼼히 확인해보세요.", "fa-solid fa-shield-heart"], 
+                    ["로고리스 백", "브랜드보다 소재와 실루엣이 먼저 보이는 조용한 명품이 잘 맞아요", "fa-solid fa-fingerprint"]
+                ],
+                recoPoint3: "컨디션과 구성품까지 확인하고 후회 없는 선택을 해보세요"
+            }
+        };
+        let currentStep = 0; // 'home', 'test', 'loading', 'result'
+        let userAnswers = []; // Array to collect 'A' or 'B'
+
+        function formatQuestionText(text) {
+            // 자동 줄바꿈을 만들지 않고, 데이터에 직접 심은 <br>만 반영합니다.
+            return text;
+        }
+        
+        // 4. Start the quiz flow
+        function startTest() {
+            currentStep = 0;
+            userAnswers = [];
+
+            const homeView = document.getElementById('view-home');
+            const testView = document.getElementById('view-test');
+
+            // 1번 문항이 시작 페이지 아래에 먼저 노출되지 않도록,
+            // 질문 데이터 세팅 전후 모두 테스트 화면은 숨김 상태를 유지합니다.
+            if (testView) {
+                testView.classList.add('hidden', 'opacity-0');
+                testView.classList.remove('opacity-100');
+            }
+
+            loadQuestion();
+
+            if (homeView) {
+                homeView.classList.add('opacity-0');
+
+                setTimeout(() => {
+                    transitionView('view-home', 'view-test');
+                }, 300);
+            } else {
+                transitionView('view-home', 'view-test');
+            }
+        }
+
+        // 5. Render active question
+        function loadQuestion() {
+            const currentQuestion = questions[currentStep];
+            const testView = document.getElementById('view-test');
+            
+            const themeIndex = currentStep % 4;
+            testView.classList.remove('q-theme-0', 'q-theme-1', 'q-theme-2', 'q-theme-3');
+            testView.classList.add(`q-theme-${themeIndex}`);
+            
+            // Update Text content
+            document.getElementById('current-question-indicator').innerText = `Q. ${currentStep + 1} / ${questions.length}`;
+            document.getElementById('question-text').innerHTML = formatQuestionText(currentQuestion.text);
+            document.getElementById('option-a-text').innerText = currentQuestion.A;
+            document.getElementById('option-b-text').innerText = currentQuestion.B;
+            const visualIcon = document.getElementById('question-visual-icon');
+            visualIcon.className = `fa-solid ${currentQuestion.icon} text-4xl`;
+            visualIcon.innerText = '';
+
+            // Calculate progress percentage
+            const progress = ((currentStep + 1) / questions.length) * 100;
+            document.getElementById('progress-bar-fill').style.width = `${progress}%`;
+
+            // Control Prev Button Visibility
+            const prevBtn = document.getElementById('prev-btn');
+            if (currentStep === 0) {
+                prevBtn.classList.add('invisible');
+            } else {
+                prevBtn.classList.remove('invisible');
+            }
+        }
+
+        // 6. Handle choice selection
+        function handleSelectAnswer(choice) {
+            userAnswers[currentStep] = choice;
+            
+            if (currentStep < questions.length - 1) {
+                // Next Question transition
+                currentStep++;
+                loadQuestion();
+            } else {
+                // Last question completed -> show loading bridge page
+                showLoadingBridge();
+            }
+        }
+
+        // 7. Support go back previous question
+        function goPrevQuestion() {
+            if (currentStep > 0) {
+                currentStep--;
+                loadQuestion();
+            }
+        }
+
+        // 8. Bridge Loading Screen Controller
+        function showLoadingBridge() {
+            transitionView('view-test', 'view-loading');
+            
+            // Keep the bridge short so the result page feels instant.
+            setTimeout(() => {
+                calculateAndShowResult();
+            }, 350);
+
+            // Safety fallback: never leave the user stuck on the loading screen.
+            setTimeout(() => {
+                const loadingView = document.getElementById('view-loading');
+                const resultView = document.getElementById('view-result');
+                if (loadingView && resultView && !loadingView.classList.contains('hidden') && resultView.classList.contains('hidden')) {
+                    loadingView.classList.add('hidden', 'opacity-0');
+                    resultView.classList.remove('hidden', 'opacity-0');
+                    resultView.classList.add('opacity-100');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }, 1200);
+        }
+
+        // 9. Calculate Matching Score (Signature alignment algorithm)
+        function calculateAndShowResult() {
+            const userPattern = userAnswers.join('').toUpperCase();
+            const keyIndexes = [4, 5, 6]; // 5~7번은 구매/탐색 의도가 강해서 동점 처리에 우선 반영
+
+            const scores = Object.entries(personas).map(([key, persona]) => {
+                const profile = persona.profile.toUpperCase();
+                let score = 0;
+                let keyScore = 0;
+
+                for (let i = 0; i < profile.length; i++) {
+                    if (userPattern[i] === profile[i]) {
+                        score++;
+                        if (keyIndexes.includes(i)) keyScore++;
+                    }
+                }
+
+                return { key, score, keyScore };
+            });
+
+            scores.sort((a, b) => {
+                return b.score - a.score || b.keyScore - a.keyScore;
+            });
+
+            let bestMatchKey = scores[0]?.key || "B";
+
+            // Bind Calculated Results to DOM elements
+            try {
+                const matchedPersona = personas[bestMatchKey] || personas.B;
+                const resultCard = document.getElementById('view-result');
+                resultCard.style.setProperty('--result-accent', matchedPersona.accent);
+                resultCard.style.setProperty('--result-soft', matchedPersona.soft);
+                const subTitleEl = document.getElementById('result-sub-title');
+                if (subTitleEl) subTitleEl.innerText = matchedPersona.subTitle;
+                document.getElementById('result-main-title').innerHTML = matchedPersona.mainTitle;
+                document.getElementById('result-tags').innerText = matchedPersona.tags;
+                const oneLinerEl = document.getElementById('result-one-liner');
+                if (oneLinerEl) {
+                    oneLinerEl.innerHTML = matchedPersona.oneLiner || matchedPersona.description;
+                }
+
+                const resultContent = resultPageContent[bestMatchKey] || resultPageContent.B;
+                if (resultContent.metrics) {
+                    resultContent.metrics.forEach((metric, index) => {
+                        const metricIndex = index + 1;
+                        const labelEl = document.getElementById(`result-metric-${metricIndex}-label`);
+                        const fillEl = document.getElementById(`result-metric-${metricIndex}-fill`);
+                        const valueEl = document.getElementById(`result-metric-${metricIndex}-value`);
+                        const iconEl = document.getElementById(`result-metric-${metricIndex}-icon`);
+                        if (labelEl) labelEl.innerText = metric[0];
+                        if (fillEl) fillEl.style.width = `${metric[1]}%`;
+                        if (valueEl) valueEl.innerText = metric[1];
+                        if (iconEl) iconEl.className = metric[2];
+                    });
+                }
+                const itemBoxTitle = document.getElementById('result-item-box-title');
+                if (itemBoxTitle) itemBoxTitle.innerText = resultContent.itemBoxTitle;
+                if (resultContent.items) {
+                    resultContent.items.forEach((item, index) => {
+                        const itemIndex = index + 1;
+                        const titleEl = document.getElementById(`result-item-${itemIndex}-title`);
+                        const copyEl = document.getElementById(`result-item-${itemIndex}-copy`);
+                        const iconEl = document.getElementById(`result-item-${itemIndex}-icon`);
+                        if (titleEl) titleEl.innerText = item[0];
+                        if (copyEl) copyEl.innerText = item[1];
+                        if (iconEl) {
+                            if (item[2]) {
+                                iconEl.innerHTML = `<i class="${item[2]}"></i>`;
+                            } else {
+                                iconEl.innerHTML = '';
+                            }
+                        }
+                    });
+                }
+
+                const resultCharacterImage = document.getElementById('result-character-image');
+                if (resultCharacterImage) resultCharacterImage.src = matchedPersona.image;
+                const goodCharacterImage = document.getElementById('result-good-character');
+                const badCharacterImage = document.getElementById('result-bad-character');
+                if (goodCharacterImage) goodCharacterImage.src = personas[matchedPersona.goodFriendKey]?.image || matchedPersona.image;
+                if (badCharacterImage) badCharacterImage.src = personas[matchedPersona.badFriendKey]?.image || matchedPersona.image;
+                const descriptionEl = document.getElementById('result-description');
+                if (descriptionEl) descriptionEl.innerText = matchedPersona.description;
+                document.getElementById('result-trait-1').innerText = matchedPersona.traits[0];
+                document.getElementById('result-trait-2').innerText = matchedPersona.traits[1];
+                document.getElementById('result-trait-3').innerText = matchedPersona.traits[2];
+                matchedPersona.stats.forEach((stat, index) => {
+                    const labelEl = document.getElementById(`result-stat-${index + 1}-label`);
+                    const fillEl = document.getElementById(`result-stat-${index + 1}-fill`);
+                    if (labelEl) labelEl.innerText = stat[0];
+                    if (fillEl) fillEl.style.width = `${stat[1]}%`;
+                });
+                document.getElementById('result-good-friend').innerText = matchedPersona.goodFriend;
+                document.getElementById('result-bad-friend').innerText = matchedPersona.badFriend;
+                const quoteEl = document.getElementById('result-quote');
+                if (quoteEl) quoteEl.innerText = `“${matchedPersona.quote}”`;
+                
+                const recoCopy = document.getElementById('result-reco-copy');
+                const recoPoint1 = document.getElementById('result-reco-point-1');
+                const recoPoint2 = document.getElementById('result-reco-point-2');
+                if (recoCopy) recoCopy.innerHTML = matchedPersona.goodMatch;
+
+                const recoPointsList = document.getElementById('result-reco-points-list');
+                if (recoPointsList) {
+                    // 수정사항: B유형과 마찬가지로, 불필요해진 불릿리스트를 일관되게 감추어 깔끔한 여백 유도
+                    recoPointsList.classList.add('hidden');
+                }
+
+                if (recoPoint1) recoPoint1.innerText = matchedPersona.recoPoints?.[0] || matchedPersona.traits[0];
+                if (recoPoint2) recoPoint2.innerText = matchedPersona.recoPoints?.[1] || matchedPersona.traits[1];
+                const recoPoint3 = document.getElementById('result-reco-point-3');
+                if (recoPoint3) recoPoint3.innerText = resultContent?.recoPoint3 || matchedPersona.traits[2];
+                const product1Brand = document.getElementById('result-product-1-brand');
+                const product1Name = document.getElementById('result-product-1-name');
+                const product2Brand = document.getElementById('result-product-2-brand');
+                const product2Name = document.getElementById('result-product-2-name');
+                if (product1Brand) product1Brand.innerText = matchedPersona.products?.[0]?.[0] || '에르메스';
+                if (product1Name) product1Name.innerHTML = (matchedPersona.products?.[0]?.[1] || '버킨 쉐도우\n콘스탄트 미니').replace(/\n/g, '<br>');
+                if (product2Brand) product2Brand.innerText = matchedPersona.products?.[1]?.[0] || '에르메스';
+                if (product2Name) product2Name.innerHTML = (matchedPersona.products?.[1]?.[1] || '켈리 백\n빈티지 골드 하드웨어').replace(/\n/g, '<br>');
+                
+                const resultCta = document.getElementById('result-cta');
+                const resultInlineCta = document.getElementById('result-inline-cta');
+                const resultTipCta = document.getElementById('result-tip-cta');
+                resultCta.innerText = '내 유형에 맞는 명품 소식 보러 가기 ▶';
+                resultCta.href = matchedPersona.ctaUrl;
+                if (resultInlineCta) {
+                    resultInlineCta.innerText = matchedPersona.ctaText;
+                    resultInlineCta.href = matchedPersona.ctaUrl;
+                }
+                if (resultTipCta) {
+                    resultTipCta.innerText = matchedPersona.tipCtaText || matchedPersona.ctaText;
+                    resultTipCta.href = matchedPersona.ctaUrl;
+                }
+
+                // 수정사항: 첫 번째 CTA 바로 밑에 유형에 맞는 보조 문구 동적 노출 추가
+                const inlineSubtext = document.getElementById('result-inline-cta-subtext');
+                if (inlineSubtext) {
+                    if (bestMatchKey === 'A') {
+                        inlineSubtext.innerText = "벌써 다른 콜렉터가 눈독들이고 있어요!";
+                        inlineSubtext.classList.remove('hidden');
+                    } else if (bestMatchKey === 'B') {
+                        inlineSubtext.innerText = "내눈에 예쁘면 남눈에도 예쁘니, 선점하세요!";
+                        inlineSubtext.classList.remove('hidden');
+                    } else if (bestMatchKey === 'C') {
+                        inlineSubtext.innerText = "안목 높은 사람들이 채가고 있어요!";
+                        inlineSubtext.classList.remove('hidden');
+                    } else if (bestMatchKey === 'D') {
+                        inlineSubtext.innerText = "먼저 본 사람이 임자! 선점하세요!";
+                        inlineSubtext.classList.remove('hidden');
+                    } else {
+                        inlineSubtext.classList.add('hidden');
+                    }
+                }
+
+
+            } catch (error) {
+                console.error('Result render failed:', error);
+            } finally {
+                transitionView('view-loading', 'view-result');
+            }
+        }
+
+        // 10. Smooth View Transition Helpers
+        function transitionView(fromId, toId) {
+            const fromView = document.getElementById(fromId);
+            const toView = document.getElementById(toId);
+            if (!fromView || !toView) return;
+
+            fromView.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                fromView.classList.add('hidden');
+                toView.classList.remove('hidden');
+                
+                toView.offsetHeight;
+                
+                toView.classList.remove('opacity-0');
+                toView.classList.add('opacity-100');
+
+                if (toId === 'view-result') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }, 300);
+        }
+
+        // 12. Reset Test & Return to Landing Home
+        function resetTest() {
+            transitionView('view-result', 'view-home');
+            currentStep = 0;
+            userAnswers = [];
+        }
+
+        // 13. Social Sharing Utilities
+        function showToast(message) {
+            const toast = document.getElementById('toast-container');
+            const toastMsg = document.getElementById('toast-message');
+            
+            toastMsg.querySelector('span').innerText = message;
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-4');
+            }, 2500);
+        }
+
+        function copyPageLink() {
+            const dummy = document.createElement('input');
+            const text = window.location.href;
+            
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            
+            showToast("테스트 링크가 클립보드에 복사되었습니다! 🎉");
+        }
+
+        function shareInstagram() {
+            showToast("인스타 공유용 결과 이미지를 준비해 주세요. 지원 환경에서는 공유 시트를 사용할 수 있어요.");
+        }
+        function shareKakao() {
+            showToast("카카오톡으로 진단 결과 카드 전송 완료! 💌");
+        }
+
+        function downloadStoryImage() {
+            showToast("인스타그램 스토리 규격 이미지 저장 완료! 📸");
+        }
+
+        window.onload = function () {
+        };
+    </script>
+</body>
+</html>
