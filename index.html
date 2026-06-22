@@ -1318,7 +1318,7 @@
                 // 수정사항: 같이 쇼핑 가면 잘 맞는 친구 부연설명 변경
                 goodFriend: "스마트 딜 헌터형",
                 badFriend: "럭셔리 무드 플렉서형",
-                goodFriendKey: "C",
+                goodFriendKey: "D",
                 badFriendKey: "B",
                 quote: "예쁘고 조건까지 좋으면 그게 진짜 득템이죠.",
                 accent: "#D25F7A",
@@ -1343,8 +1343,8 @@
                 stats: [["무드 감지", 96], ["브랜드 존재감", 90], ["희소성 반응", 84]],
                 goodFriend: "시크릿 보물 컬렉터형",
                 badFriend: "득템 리서처형",
-                goodFriendKey: "A",
-                badFriendKey: "D",
+                goodFriendKey: "C",
+                badFriendKey: "A",
                 quote: "결국 중요한 건 내가 들었을 때의 분위기예요.",
                 accent: "#D4AF37",
                 soft: "#FFFDF0"
@@ -1376,8 +1376,8 @@
                 // 수정사항: 시크릿 보물 컬렉터형 궁합친구들의 부연설명 변경
                 goodFriend: "럭셔리 무드 플렉서형",
                 badFriend: "스마트 딜 헌터형",
-                goodFriendKey: "D",
-                badFriendKey: "B",
+                goodFriendKey: "B",
+                badFriendKey: "D",
                 quote: "흔하지 않은데 예쁜 것, 그게 제일 오래 가요.",
                 accent: "#10B981",
                 soft: "#ECFDF5"
@@ -1407,8 +1407,8 @@
                 // 수정사항: 클래식 감정가형 궁합친구들의 부연설명 변경
                 goodFriend: "득템 리서처형",
                 badFriend: "시크릿 보물 컬렉터형",
-                goodFriendKey: "C",
-                badFriendKey: "B",
+                goodFriendKey: "A",
+                badFriendKey: "C",
                 quote: "좋은 명품은 시간이 지나도 이유가 남아요.",
                 accent: "#8D65B7",
                 soft: "#F4EDF8"
@@ -1638,7 +1638,7 @@
                         const copyEl = document.getElementById(`result-item-${itemIndex}-copy`);
                         const iconEl = document.getElementById(`result-item-${itemIndex}-icon`);
                         if (titleEl) titleEl.innerText = item[0];
-                        if (copyEl) copyEl.innerText = item[1];
+                        if (copyEl) copyEl.innerHTML = item[1];
                         if (iconEl) {
                             if (item[2]) {
                                 iconEl.innerHTML = `<i class="${item[2]}"></i>`;
