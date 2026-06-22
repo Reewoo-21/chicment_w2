@@ -1057,7 +1057,7 @@
                         <span class="result-pill inline-flex items-center justify-center rounded-full border px-4 py-1 text-[10px] font-black tracking-[0.16em] uppercase">
                             TEST RESULT
                         </span>
-                        <h2 class="mt-10 text-base font-black leading-tight text-[#211D19]">
+                        <h2 class="mt-5 text-base font-black leading-tight text-[#211D19]">
                             <span id="result-sub-title">당신은,</span><br>
                             <span id="result-main-title" class="result-accent my-2 inline-block text-4xl md:text-5xl leading-[1.12]">공홈 밖<br>보물찾기형</span><br>
                             <span class="text-sm">타입이에요.</span>
@@ -2031,13 +2031,13 @@
                 ctx.fillText('TEST RESULT', 540, y + 28);
                 ctx.restore();
 
-                drawImageContain(ctx, resultImg, 318, 118, 444, 396);
+                drawImageContain(ctx, resultImg, 318, 138, 444, 396);
 
-                drawTextLines(ctx, [mainTitleText], 540, 535, {
+                drawTextLines(ctx, [mainTitleText], 540, 555, {
                     font: '900 82px sans-serif', color: accent, align: 'center', lineHeight: 88, maxWidth: 900, wrap: true
                 });
 
-                y = 660;
+                y = 680;
                 ctx.save();
                 drawRoundRect(ctx, 52, y, 976, 540, 32);
                 ctx.fillStyle = '#FFFDFF';
@@ -2078,7 +2078,7 @@
                     }
                 });
 
-                y = 1232;
+                y = 1247;
                 const cardW = 460;
                 const cardH = 250;
                 const cards = [
@@ -2105,10 +2105,10 @@
                     });
                 });
 
-                drawTextLines(ctx, ['CHICMENT LUXURY IDENTITY TEST'], 540, 1530, {
+                drawTextLines(ctx, ['CHICMENT LUXURY IDENTITY TEST'], 540, 1545, {
                     font: '900 24px sans-serif', color: '#8B8175', align: 'center', lineHeight: 30
                 });
-                drawTextLines(ctx, [window.location.hostname || 'chicment.com'], 540, 1566, {
+                drawTextLines(ctx, ['CHICMENT'], 540, 1581, {
                     font: '900 24px sans-serif', color: accent, align: 'center', lineHeight: 30
                 });
 
