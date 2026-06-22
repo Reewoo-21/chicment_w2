@@ -2054,15 +2054,33 @@
                 y += 36;
 
                 items.forEach((item, index) => {
-                    const rowY = y + index * 136;
+                    const rowGap = 136;
+                    const rowY = y + index * rowGap;
+                    const titleLineHeight = 38;
+                    const copyLineHeight = 34;
+                    const copyBoxHeight = copyLineHeight * 2; // 설명 영역은 최대 2줄 기준으로 고정
+                    const titleToCopyGap = 5;
+                    const copyToDividerGap = 5;
+                    const fixedTextBlockHeight = titleLineHeight + titleToCopyGap + copyBoxHeight;
 
-                    drawItemIcon(ctx, item.icon, 144, rowY + 40, accent);
+                    ctx.font = '700 24px sans-serif';
+                    const copyLines = wrapText(ctx, item.copy, 720);
+                    const actualCopyHeight = Math.min(copyLines.length, 2) * copyLineHeight;
+                    const actualTextBlockHeight = titleLineHeight + titleToCopyGap + actualCopyHeight;
+                    const centeredOffsetY = Math.max(0, (fixedTextBlockHeight - actualTextBlockHeight) / 2);
+                    const titleY = rowY + centeredOffsetY;
+                    const copyY = titleY + titleLineHeight + titleToCopyGap;
+                    const dividerY = rowY + fixedTextBlockHeight + copyToDividerGap;
 
-                    drawTextLines(ctx, [item.title], 212, rowY, {
-                        font: '900 32px sans-serif', color: '#111111', align: 'left', lineHeight: 38, maxWidth: 720, wrap: true
+                    // 아이콘도 제목+설명 세트의 고정 영역 중앙에 맞춤
+                    drawItemIcon(ctx, item.icon, 144, rowY + fixedTextBlockHeight / 2, accent);
+
+                    drawTextLines(ctx, [item.title], 212, titleY, {
+                        font: '900 32px sans-serif', color: '#111111', align: 'left', lineHeight: titleLineHeight, maxWidth: 720, wrap: true
                     });
-                    drawTextLines(ctx, [item.copy], 212, rowY + 44, {
-                        font: '700 24px sans-serif', color: '#333333', align: 'left', lineHeight: 34, maxWidth: 720, wrap: true
+
+                    drawTextLines(ctx, [item.copy], 212, copyY, {
+                        font: '700 24px sans-serif', color: '#333333', align: 'left', lineHeight: copyLineHeight, maxWidth: 720, wrap: true
                     });
 
                     if (index < 2) {
@@ -2071,8 +2089,8 @@
                         ctx.lineWidth = 2;
                         ctx.strokeStyle = colorWithAlpha(accent, 0.22);
                         ctx.beginPath();
-                        ctx.moveTo(212, rowY + 108);
-                        ctx.lineTo(900, rowY + 108);
+                        ctx.moveTo(212, dividerY);
+                        ctx.lineTo(900, dividerY);
                         ctx.stroke();
                         ctx.restore();
                     }
@@ -2080,7 +2098,7 @@
 
                 y = 1247;
                 const cardW = 460;
-                const cardH = 250;
+                const cardH = 316;
                 const cards = [
                     { x: 52, title: '같이 쇼핑 가면 잘 맞는 친구', img: goodImg, name: goodFriend },
                     { x: 568, title: '같이 쇼핑 가면 안 맞는 친구', img: badImg, name: badFriend }
@@ -2096,19 +2114,27 @@
                     ctx.stroke();
                     ctx.restore();
 
-                    drawTextLines(ctx, [card.title], card.x + cardW / 2, y + 34, {
+                    // PNG 다운로드용 친구 카드 간격 고정
+                    // - 상단 캡션/하단 타입명 타이틀: 위아래 8px 여백 추가
+                    // - 친구 이미지: 위아래 10px 여백 추가
+                    const friendTitlePaddingY = 8;
+                    const friendImagePaddingY = 10;
+
+                    const friendTitleEndY = drawTextLines(ctx, [card.title], card.x + cardW / 2, y + 34 + friendTitlePaddingY, {
                         font: '900 24px sans-serif', color: '#8B8175', align: 'center', lineHeight: 30
                     });
-                    drawImageContain(ctx, card.img, card.x + 134, y + 58, 192, 144);
-                    drawTextLines(ctx, [card.name], card.x + cardW / 2, y + 198, {
+                    const friendImageY = friendTitleEndY + friendTitlePaddingY + friendImagePaddingY;
+                    const friendImageH = 144;
+                    drawImageContain(ctx, card.img, card.x + 134, friendImageY, 192, friendImageH);
+                    drawTextLines(ctx, [card.name], card.x + cardW / 2, friendImageY + friendImageH + friendImagePaddingY + friendTitlePaddingY, {
                         font: '900 29px sans-serif', color: '#111111', align: 'center', lineHeight: 36, maxWidth: 400, wrap: true
                     });
                 });
 
-                drawTextLines(ctx, ['CHICMENT LUXURY IDENTITY TEST'], 540, 1545, {
+                drawTextLines(ctx, ['CHICMENT LUXURY IDENTITY TEST'], 540, 1585, {
                     font: '900 24px sans-serif', color: '#8B8175', align: 'center', lineHeight: 30
                 });
-                drawTextLines(ctx, ['CHICMENT'], 540, 1581, {
+                drawTextLines(ctx, ['CHICMENT'], 540, 1621, {
                     font: '900 24px sans-serif', color: accent, align: 'center', lineHeight: 30
                 });
 
